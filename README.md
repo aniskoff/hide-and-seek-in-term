@@ -33,5 +33,5 @@ Simple terminal-based roguelike game.
 - `<shift+r>`: regenerate game map;
 - `<shift+s>`: save current game state;
 - `<shift+l>`: load previously saved game state (if present);
-
+- `<esc>`    : exit
 
