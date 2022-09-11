@@ -3,9 +3,9 @@
 ## About
 Simple terminal-based roguelike game.
 
-<p float="up">
-  <img src="docs/assets/hide-seek-in-term-2.gif" width=440 height=320>
-  <img src="docs/assets/hide-seek-in-term-1.gif" width=440 height=320>
+<p float="up" align="center">
+  <img src="docs/assets/hide-seek-in-term-2.gif" height=450>
+  <img src="docs/assets/hide-seek-in-term-1.gif" height=450>
 </p>
 
 ## Build
