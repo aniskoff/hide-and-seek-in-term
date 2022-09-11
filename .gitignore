@@ -2,3 +2,6 @@
 .gradlew
 .idea/
 gradle/
+build/
+game/resources/grids/*
+
