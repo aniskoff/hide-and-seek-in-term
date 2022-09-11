@@ -31,38 +31,42 @@ record Pair<T>(T fst, T snd) {
 };
 
 
-class MazeGenerator {
-    static ArrayList<ArrayList<GridCellType>> genMaze(int col, int row, float mapDensity) {
-        ArrayList<ArrayList<GridCellType>> maze = new ArrayList<>(row);
+class GameMapGenerator {
+    static ArrayList<ArrayList<GridCellType>> genRandMap(int col, int row, float mapDensity) {
+        ArrayList<ArrayList<GridCellType>> gameMap = new ArrayList<>(row);
         for (int i = 0; i < row; i++) {
-            maze.add(new ArrayList<>(col));
+            gameMap.add(new ArrayList<>(col));
         }
 
         Random randGen = new Random();
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                maze.get(i).add(randGen.nextFloat() < mapDensity ? GridCellType.WALL : GridCellType.FLOOR);
+                gameMap.get(i).add(randGen.nextFloat() < mapDensity ? GridCellType.WALL : GridCellType.FLOOR);
             }
         }
 
-        return maze;
+        return gameMap;
     }
 }
 
 
 class Game {
     private Terminal term;
-    private final TerminalSize termSz;
+    private TerminalSize termSz;
     private int FPS;
-    private int EPS;
+
 
     private final float mapDensity;
 
     private final int nEnemies;
 
-    private final Path gameGridSerializationPath = Path.of("resources",
+    private final Path gameGridSerializationPath = Path.of(
+            "resources",
             "grids",
-            "serializedGameGrid");
+            "serializedGameGrid"
+    );
+
+    private final int EPS = 30;
 
 
     private ArrayList<ArrayList<GridCellType>> gameGrid;
@@ -72,9 +76,7 @@ class Game {
     private ArrayList<AgentPos> enemyPositions = new ArrayList<>();
     private final TextColor enemyColor = TextColor.ANSI.BLUE;
 
-    public Game(int col, int row, int someFPS, int someEPS, int someNumEnemies, float someMapDensity) {
-        termSz = new TerminalSize(col, row);
-        EPS = someEPS;
+    public Game(int someFPS, int someNumEnemies, float someMapDensity) {
         nEnemies = someNumEnemies;
         mapDensity = someMapDensity;
         try {
@@ -86,7 +88,8 @@ class Game {
 
     private void initGame(int someFps) throws IOException {
         FPS = someFps;
-        term = new DefaultTerminalFactory().setInitialTerminalSize(termSz).createTerminal();
+        term = new DefaultTerminalFactory().createTerminal();
+        termSz = term.getTerminalSize();
         initTerm(term);
 
         initGrid();
@@ -100,7 +103,7 @@ class Game {
     }
 
     private void initGrid() {
-        gameGrid = MazeGenerator.genMaze(termSz.getColumns(), termSz.getRows(), mapDensity);
+        gameGrid = GameMapGenerator.genRandMap(termSz.getColumns(), termSz.getRows(), mapDensity);
         spawnPlayer();
         spawnEnemies(nEnemies);
     }
