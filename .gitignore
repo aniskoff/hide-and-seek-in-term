@@ -1,4 +1,4 @@
 .gradle/*
 .gradlew
 .idea/
-
+gradle/
